@@ -1,29 +1,36 @@
-const botconfig = require("./botconfig.json");
-const Discord = require("discord.js");
+const { Client } = require("discord.js");
+const { config } = require("dotenv");
+const botconfig = require("./bot-config.json");
 
-
-
-const bot = new Discord.Client({disableEveryone: true});
-
-bot.on("ready", async() => {
-    console.log(bot.user.username+" is online!");
-    bot.user.setActivity("with yt api!");
+const client = new Client({
+    disableEveryone: true
 });
 
-bot.on("message", async message => {
-    if(message.author.bot) return;
-    if(message.channel.type === "dm") return;
+const COLOR = {
+    "primary":"#32d370",
+    "secondary":"#0C7CD5"};
 
-    let prefix = botconfig.prefix;
-    let messageArray = message.content.split(" ");
-    let cmd = messageArray[0];
-    let args = messageArray.slice(1);
 
-    if(cmd === `${prefix}hi`) {
-        return message.channel.send("Hello!");
-    }
-    
-})
+config({
+    path: __dirname + "/.env"
+});
 
-bot.login(botconfig.token);
+// say hello 
+client.on("ready", async() => {
+    console.log("> "+client.user.username+" is online!");
+    // client.user.setActivity("with yt api!");
+    client.user.setPresence({
+        status: "online",
+        game:  {
+            name: "twitch.tv/juliversal",
+            type: "WATCHING"
+        }
+    })
+});
+
+client.on("message", async msg => {
+    console.log("["+msg.author.username+"] said: "+msg.content);
+});
+
+client.login(botconfig.token);
 
