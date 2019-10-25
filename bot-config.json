@@ -1,4 +1,13 @@
 {
     "token": "NjM2OTc3ODk3NjQ2NzE4OTc4.XbIFfw.ZTlIi2V0amf6GeYk-yMW6CBmcNU",
-    "prefix": "-"
+    "ytkey": "AIzaSyCZ9Hxb4EI5XMwYD9OjuyZljPbnMgG_YmQ",
+    "prefix": "-",
+    "invite": "https://discordapp.com/api/oauth2/authorize?client_id=636977897646718978&permissions=8&scope=bot",
+    "colors": {
+        "prim": "#0c7cd5"
+    },
+    "julie": {
+        "name": "Juliversal",
+        "channelid": "UCsyye4AvF0XyaqXsBZw9xCg"
+    }
 }
