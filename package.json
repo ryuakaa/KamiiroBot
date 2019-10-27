@@ -4,7 +4,9 @@
   "description": "Discord Bot Juliversal",
   "main": "index.js",
   "dependencies": {
+    "ascii-table": "0.0.9",
     "axios": "^0.19.0",
+    "common-tags": "^1.8.0",
     "discord.js": "^11.5.1",
     "dotenv": "^8.2.0",
     "moment": "^2.24.0",
