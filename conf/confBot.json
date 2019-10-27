@@ -1,0 +1,13 @@
+{
+    "ytkey": "AIzaSyCZ9Hxb4EI5XMwYD9OjuyZljPbnMgG_YmQ",
+    "prefix": "-",
+    "invite": "https://discordapp.com/api/oauth2/authorize?client_id=636977897646718978&permissions=8&scope=bot",
+    "colors": {
+        "primary": "#0c7cd5",
+        "secondary": "#96AE5F"
+    },
+    "julie": {
+        "name": "Juliversal",
+        "channelid": "UCsyye4AvF0XyaqXsBZw9xCg"
+    }
+}
