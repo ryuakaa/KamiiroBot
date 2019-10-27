@@ -25,7 +25,7 @@ client.aliases = new Collection();
 
 // wake up
 client.on("ready", async () => {
-  // console.log("> " + client.user.username + " is now running...");
+  console.log("> " + client.user.username + " is now running...");
   // client.user.setActivity("with yt api!");
   client.user.setPresence({
     status: "online",

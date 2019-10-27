@@ -1,7 +1,6 @@
 const { getMember, formatDate } = require("./../../functions.js");
 const { RichEmbed } = require("discord.js");
 const { stripIndents } = require("common-tags");
-
 const conf = require("./../../conf/confBot.json");
 
 module.exports = {
@@ -25,33 +24,37 @@ module.exports = {
     const created = formatDate(member.user.createdAt);
 
     const embed = new RichEmbed()
+      .setTitle("Information")
       .setFooter(member.displayName, member.user.displayAvatarURL)
       .setThumbnail(member.user.displayAvatarURL)
       .setColor(conf.colors.secondary)
       .addField(
-        "Member information",
-        stripIndents + "**> Display name:** " + member.displayName
-      )
-      .addField("**> Joined at:** " + joined + "**> Roles: " + role, true)
-      .addField(
         "User information",
-        stripIndents,
-        "**> ID:** " +
+          "**ID:** " +
           member.user.id +
-          "**> Username:** " +
+          "\n**Username:** " +
           member.user.username +
-          "**> Discord Tag:** " +
+          "\n**Discord Tag:** " +
           member.user.tag +
-          "**> Created at:** " +
+          "\n**Created at:** " +
           created,
+        true
+      )
+      .addField(
+        "Member information",
+        "**Display name:** " +
+          member.displayName +
+          "\n**Joined at:** " +
+          joined +
+          "\n**Roles:** " +
+          role,
         true
       );
 
     if (member.user.presence.game)
       embed.addField(
         "Currently playing",
-        "**> Name:** " + member.user.presence.game.name,
-        true
+        "**Name:** " + member.user.presence.game.name
       );
 
     message.channel.send(embed);
