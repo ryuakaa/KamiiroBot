@@ -23,6 +23,24 @@ module.exports = {
     return new Intl.DateTimeFormat("en-US").format(date);
   },
 
+  promptMessage: async function (message, author, time, validReactions) {
+    time *= 1000;
+    for (const reaction of validReactions) await message.react(reaction);
+
+    const filter = (
+      reaction,
+      user
+    ) => validReactions.includes(reaction.emoji.name) && user.id == author.id;
+
+
+    return message
+      .awaitReactions(filter, {
+        max: 1,
+        time: time
+      })
+      .then(collected => collected.first() && collected.first().emoji.name);
+  },
+
   /**
    * Returns response data from channel
    * @param {String} channelid
@@ -32,8 +50,7 @@ module.exports = {
   async getStatus(channelid, eventType) {
     return axios({
       method: "GET",
-      url:
-        "https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=" +
+      url: "https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=" +
         channelid +
         "&type=video&eventType=" +
         eventType +
@@ -82,9 +99,9 @@ module.exports = {
 
     msg.channel.send(
       "Hi @here, **" +
-        item.snippet.channelTitle +
-        "** ist ab jetzt live auf YouTube!\n" +
-        url
+      item.snippet.channelTitle +
+      "** ist ab jetzt live auf YouTube!\n" +
+      url
     );
   }
 };
