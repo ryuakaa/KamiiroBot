@@ -1,3 +1,5 @@
+const { getStatus } = require("./functions.js");
+
 module.exports = {
   getMember(message, toFind = "") {
     toFind = toFind.toLowerCase();
@@ -23,15 +25,12 @@ module.exports = {
     return new Intl.DateTimeFormat("en-US").format(date);
   },
 
-  promptMessage: async function (message, author, time, validReactions) {
+  promptMessage: async function(message, author, time, validReactions) {
     time *= 1000;
     for (const reaction of validReactions) await message.react(reaction);
 
-    const filter = (
-      reaction,
-      user
-    ) => validReactions.includes(reaction.emoji.name) && user.id == author.id;
-
+    const filter = (reaction, user) =>
+      validReactions.includes(reaction.emoji.name) && user.id == author.id;
 
     return message
       .awaitReactions(filter, {
@@ -50,7 +49,8 @@ module.exports = {
   async getStatus(channelid, eventType) {
     return axios({
       method: "GET",
-      url: "https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=" +
+      url:
+        "https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=" +
         channelid +
         "&type=video&eventType=" +
         eventType +
@@ -86,22 +86,31 @@ module.exports = {
    * @param {*} msg on message
    * @param {*} res yt response
    */
-  getStreamNotification(msg, res) {
-    // get data from youtube api
-    let item = res.items[0];
-    let img = item.snippet.thumbnails.high.url;
-    let url = "https://youtube.com/watch?v=" + item.id.videoId;
+  sendStreamNotification(msg, res) {
+    try {
+      if (res) {
+        // get data from youtube api
+        let item = res.items[0];
+        let img = item.snippet.thumbnails.high.url;
+        let url = "https://youtube.com/watch?v=" + item.id.videoId;
 
-    if (res.pageInfo.totalResults === 0) {
-      msg.channel.send("This channel is offline!");
-      return;
+        if (res.pageInfo.totalResults === 0) {
+          msg.channel.send("This channel is offline!");
+          return;
+        }
+
+        msg.channel.send(
+          "Hi @here, **" +
+            item.snippet.channelTitle +
+            "** ist ab jetzt live auf YouTube!\n" +
+            url
+        );
+      } else {
+        // channel is offline
+        msg.channel.send("Channel is **not** streaming!");
+      }
+    } catch (error) {
+      console.log(error);
     }
-
-    msg.channel.send(
-      "Hi @here, **" +
-      item.snippet.channelTitle +
-      "** ist ab jetzt live auf YouTube!\n" +
-      url
-    );
   }
 };

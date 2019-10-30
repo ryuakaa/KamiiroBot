@@ -3,7 +3,6 @@ const { RichEmbed } = require("discord.js");
 const { stripIndents } = require("common-tags");
 const conf = require("./../../conf/confBot.json");
 
-
 module.exports = {
   name: "kick",
   category: "moderation",
@@ -85,6 +84,7 @@ module.exports = {
       .setAuthor("This verification becomes invalid after 30s")
       .setDescription("Do you want to kick " + toKick + "?");
 
+    //TODO fix
     message.channel.send(promptEmbed).then(async msg => {
       const emoji = await promptMessage(msg, message.author, 30, [
         ":white_check_mark:",
