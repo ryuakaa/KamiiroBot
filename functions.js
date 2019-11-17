@@ -1,3 +1,5 @@
+const { getStatus } = require("./functions.js");
+
 module.exports = {
   getMember(message, toFind = "") {
     toFind = toFind.toLowerCase();
@@ -23,15 +25,12 @@ module.exports = {
     return new Intl.DateTimeFormat("en-US").format(date);
   },
 
-  promptMessage: async function (message, author, time, validReactions) {
+  promptMessage: async function(message, author, time, validReactions) {
     time *= 1000;
     for (const reaction of validReactions) await message.react(reaction);
 
-    const filter = (
-      reaction,
-      user
-    ) => validReactions.includes(reaction.emoji.name) && user.id == author.id;
-
+    const filter = (reaction, user) =>
+      validReactions.includes(reaction.emoji.name) && user.id == author.id;
 
     return message
       .awaitReactions(filter, {
@@ -42,66 +41,29 @@ module.exports = {
   },
 
   /**
-   * Returns response data from channel
-   * @param {String} channelid
-   * @param {String} eventType
-   * @returns {Object}
+   * @param {Array} errorArray Array of Strings
+   * @param {String} example Example String
    */
-  async getStatus(channelid, eventType) {
-    return axios({
-      method: "GET",
-      url: "https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=" +
-        channelid +
-        "&type=video&eventType=" +
-        eventType +
-        "&key=" +
-        conf.ytkey
-    }).then(res => res.data);
-  },
-
-  /**
-   * Returns Channel info
-   * @param {*} channelId id
-   * @param {*} eventType live, completed, etc
-   * @returns {Object} returns json [item]
-   */
-  async getChannelInfo(channelId, eventType) {
-    try {
-      // get response from rest service
-      let res = await getStatus(channelId, eventType);
-      // no search results
-      if (res.pageInfo.totalResults === 0) {
-        return null;
-      }
-      // take first item and return it
-      return res.items[0];
-    } catch (error) {
-      console.log(error);
-      return error;
+  getErrorMessage(errorArray, example) {
+    // build string
+    let msg = "```css\n[Errors]\n";
+    for (let i = 0; i < errorArray.length; i++) {
+      msg += "[" + (i + 1) + "] " + errorArray[i] + "\n";
     }
+    msg += "\n[Example]\n" + example + "```";
+    return msg;
   },
-
   /**
-   * sends message in channel
-   * @param {*} msg on message
-   * @param {*} res yt response
+   * @param {Array} errorArray Array of Strings
+   * @param {String} example Example String
    */
-  getStreamNotification(msg, res) {
-    // get data from youtube api
-    let item = res.items[0];
-    let img = item.snippet.thumbnails.high.url;
-    let url = "https://youtube.com/watch?v=" + item.id.videoId;
-
-    if (res.pageInfo.totalResults === 0) {
-      msg.channel.send("This channel is offline!");
-      return;
+  getErrorMessage(errorArray) {
+    // build string
+    let msg = "```css\n[Errors]\n";
+    for (let i = 0; i < errorArray.length; i++) {
+      msg += "[" + (i + 1) + "] " + errorArray[i] + "\n";
     }
-
-    msg.channel.send(
-      "Hi @here, **" +
-      item.snippet.channelTitle +
-      "** ist ab jetzt live auf YouTube!\n" +
-      url
-    );
+    msg += "```";
+    return msg;
   }
 };

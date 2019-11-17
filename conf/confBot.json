@@ -6,8 +6,15 @@
         "primary": "#0c7cd5",
         "secondary": "#96AE5F"
     },
-    "julie": {
-        "name": "Juliversal",
-        "channelid": "UCsyye4AvF0XyaqXsBZw9xCg"
+    "yt": {
+        "julie": {
+            "name": "Juliversal",
+            "channelid": "UCsyye4AvF0XyaqXsBZw9xCg"
+        },
+        "nasa": {
+            "name": "NASA",
+            "channelid": "UCLA_DiR1FfKNvjuUpBHmylQ"
+        }
     }
+
 }
