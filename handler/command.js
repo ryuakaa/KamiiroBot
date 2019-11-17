@@ -1,6 +1,4 @@
-const {
-  readdirSync
-} = require("fs");
+const { readdirSync } = require("fs");
 const ascii = require("ascii-table");
 const table = new ascii().setHeading("Command", "Load Status", "Description");
 
@@ -9,7 +7,7 @@ module.exports = client => {
     const commands = readdirSync("./commands/" + dir).filter(f =>
       f.endsWith(".js")
     );
-    console.log(commands);
+    // console.log(commands);
 
     for (let file of commands) {
       let pull = require("./../commands/" + dir + "/" + file);

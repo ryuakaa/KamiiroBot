@@ -41,76 +41,29 @@ module.exports = {
   },
 
   /**
-   * Returns response data from channel
-   * @param {String} channelid
-   * @param {String} eventType
-   * @returns {Object}
+   * @param {Array} errorArray Array of Strings
+   * @param {String} example Example String
    */
-  async getStatus(channelid, eventType) {
-    return axios({
-      method: "GET",
-      url:
-        "https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=" +
-        channelid +
-        "&type=video&eventType=" +
-        eventType +
-        "&key=" +
-        conf.ytkey
-    }).then(res => res.data);
-  },
-
-  /**
-   * Returns Channel info
-   * @param {*} channelId id
-   * @param {*} eventType live, completed, etc
-   * @returns {Object} returns json [item]
-   */
-  async getChannelInfo(channelId, eventType) {
-    try {
-      // get response from rest service
-      let res = await getStatus(channelId, eventType);
-      // no search results
-      if (res.pageInfo.totalResults === 0) {
-        return null;
-      }
-      // take first item and return it
-      return res.items[0];
-    } catch (error) {
-      console.log(error);
-      return error;
+  getErrorMessage(errorArray, example) {
+    // build string
+    let msg = "```css\n[Errors]\n";
+    for (let i = 0; i < errorArray.length; i++) {
+      msg += "[" + (i + 1) + "] " + errorArray[i] + "\n";
     }
+    msg += "\n[Example]\n" + example + "```";
+    return msg;
   },
-
   /**
-   * sends message in channel
-   * @param {*} msg on message
-   * @param {*} res yt response
+   * @param {Array} errorArray Array of Strings
+   * @param {String} example Example String
    */
-  sendStreamNotification(msg, res) {
-    try {
-      if (res) {
-        // get data from youtube api
-        let item = res.items[0];
-        let img = item.snippet.thumbnails.high.url;
-        let url = "https://youtube.com/watch?v=" + item.id.videoId;
-
-        if (res.pageInfo.totalResults === 0) {
-          msg.channel.send("This channel is offline!");
-          return;
-        }
-
-        msg.channel.send(
-          "Hi @here, **" +
-            item.snippet.channelTitle +
-            "** ist ab jetzt live auf YouTube!\n" +
-            url
-        );
-      } else {
-        // channel is offline
-        msg.channel.send("Channel is **not** streaming!");
-      }
-    } catch (error) {
-      console.log(error);
+  getErrorMessage(errorArray) {
+    // build string
+    let msg = "```css\n[Errors]\n";
+    for (let i = 0; i < errorArray.length; i++) {
+      msg += "[" + (i + 1) + "] " + errorArray[i] + "\n";
     }
+    msg += "```";
+    return msg;
   }
 };
