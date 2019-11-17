@@ -10,6 +10,7 @@ Discord Bot for the Juliversal Community
 - `Npm` latest stable version
 - `NodeJS` latest stable version
 - `IDE` (VSCode recommended)
+- Run `npm install` to update the dependencies
 
 ---
 
