@@ -18,18 +18,14 @@ Discord Bot for the Juliversal Community
 
 - **Fork** this repository
 - Create a **new branch** from the develop branch
-- Create a **.env** file in this directory and insert:
+- Create a file named **.env** in this directory and insert:
 
 ```js
 TOKEN = superSecretToken;
 ```
 
 - Replace token with your discordapp.com/developers Bot Token.
-- Run this to start the bot
-
-```js
-node index
-```
+- Run `node index` to start the bot
 
 ---
 

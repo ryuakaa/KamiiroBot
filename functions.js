@@ -65,5 +65,13 @@ module.exports = {
     }
     msg += "```";
     return msg;
+  },
+  /**
+   * Return the Date and Time for console outputs
+   * @returns {String} date | time
+   */
+  getDateTimeStr() {
+    let d = new Date();
+    return d.toLocaleDateString() + " | " + d.toLocaleTimeString();
   }
 };

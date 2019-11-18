@@ -1,7 +1,7 @@
 const axios = require("axios");
 const moment = require("moment");
 const conf = require("./../../conf/confBot");
-const { getErrorMessage } = require("./../../functions.js");
+const { getErrorMessage, getDateTimeStr } = require("./../../functions.js");
 
 var interval = null;
 
@@ -39,7 +39,10 @@ module.exports = {
       // set target channel
       if (args[1] === "julie") {
         // choose julie
-        target = conf.yt.julie.channelId;
+        target = conf.yt.julie.channelID;
+      } else if (args[1] === "nasa") {
+        // choose nasa
+        target = conf.yt.nasa.channelID;
       } else if (args[1] != null && args[1].startsWith("id:")) {
         // choose id TODO exception handling if wrong id
         target = args[1].split("id:")[1];
@@ -56,9 +59,8 @@ module.exports = {
       // start loop
       if (mode === "live") {
         // start interval function
-        message.channel.send(
-          "Starting  with " + counterInSec + "s interval ..."
-        );
+        message.channel.send("Started with " + counterInSec + "s interval ");
+
         interval = setInterval(
           () => updateTimerLive(message, target),
           counterInSec * 1000
@@ -70,29 +72,38 @@ module.exports = {
     }
 
     /**
-     * Is called every interval seconds
-     * repeats until stop function stopTimer() is called
+     * Is called every <interval> seconds
+     * repeats until stop function stopUpdateTimer(obj) is called
      */
-    async function updateTimerLive(message, channelid) {
+    async function updateTimerLive(message, channelID) {
       try {
         // get channel live info
-        let item = await getChannelInfo(channelid, "live");
+        let item = await getChannelInfo(channelID, "live");
 
-        // check if item is a number, that would mean something is wrong!
-        if (!isNaN(item)) {
-          // rest service responed with an error
-          let e = ["Server responded with status [" + item + "]"];
-          message.channel.send(getErrorMessage(e));
-          stopUpdateTimer(interval);
-        }
-
-        if (
+        // check if failed
+        if (item == null) {
+          // nothing found -> Probably offline
+          console.log(
+            getDateTimeStr() + " " + channelID + " is offline or nothing found!"
+          );
+        } else if (
           item != null &&
-          item.snipper != null &&
+          item.response != null &&
+          !isNaN(item.response.status)
+        ) {
+          // rest service responed with an error
+          let e = [item];
+          message.channel.send(getErrorMessage(e));
+          // stop timer
+          stopUpdateTimer(interval);
+        } else if (
+          item.snippet != null &&
           item.snippet.liveBroadcastContent != null
         ) {
           // stream online
           sendStreamNotification(message, item);
+          // stop timer
+          stopUpdateTimer(interval);
         }
       } catch (error) {
         console.log(error);
@@ -106,35 +117,35 @@ module.exports = {
     function stopUpdateTimer(interv) {
       clearInterval(interv);
       console.log("Stopping interval...");
-      message.channel.send("Stopping interval ...");
     }
 
     /**
      * Returns Channel info or status if response.status != 200
-     * @param {*} channelId id
+     * @param {*} channelID id
      * @param {*} eventType live, completed, etc
-     * @returns {Object} returns json [item]
+     * @returns {Object} returns json [item] or error code
      */
-    async function getChannelInfo(channelId, eventType) {
+    async function getChannelInfo(channelID, eventType) {
       let ret = null;
-      await getStatus(channelId, eventType)
+      await getStatus(channelID, eventType)
         .then(res => {
           // Success case
-          console.log("success!");
-          ret = res.response.data.items[0];
+          if (res.status === 200) {
+            // rest service successfull
+            console.log(getDateTimeStr() + " GET successful!");
+
+            if (res.data.items.length > 0) {
+              // found something
+              ret = res.data.items[0];
+            } else {
+              ret = null;
+            }
+          }
         })
         .catch(res => {
-          // error case; return status
-          if (res.response.status === 403) {
-            console.log(
-              "Server returned with status 403!\nDaily limit reached :("
-            );
-          } else {
-            console.log(
-              "Server responded with:\n" + res.response.data.error.message
-            );
-          }
-          ret = res.response.status;
+          // error case; return response
+          console.log(getDateTimeStr() + " GET failed!");
+          ret = res;
         });
       return ret;
     }
@@ -163,16 +174,16 @@ module.exports = {
 
     /**
      * Returns response data from channel
-     * @param {String} channelid
+     * @param {String} channelID
      * @param {String} eventType
      * @returns {Object}
      */
-    async function getStatus(channelid, eventType) {
+    async function getStatus(channelID, eventType) {
       return axios({
         method: "GET",
         url:
           "https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=" +
-          channelid +
+          channelID +
           "&type=video&eventType=" +
           eventType +
           "&key=" +
