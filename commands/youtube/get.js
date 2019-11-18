@@ -68,7 +68,7 @@ module.exports = {
       }
     } catch (error) {
       console.log(error);
-      message.channel.send(error.toString());
+      message.channel.send(getErrorMessage([error]));
     }
 
     /**
@@ -82,7 +82,7 @@ module.exports = {
 
         // check if failed
         if (item == null) {
-          // nothing found -> Probably offline
+          /////////////////////// nothing found -> Probably offline
           console.log(
             getDateTimeStr() + " " + channelID + " is offline or nothing found!"
           );
@@ -91,8 +91,9 @@ module.exports = {
           item.response != null &&
           !isNaN(item.response.status)
         ) {
-          // rest service responed with an error
+          /////////////////////// rest service responed with an error
           let e = [item];
+          e.push(item.response.data.error.message);
           message.channel.send(getErrorMessage(e));
           // stop timer
           stopUpdateTimer(interval);
@@ -100,7 +101,7 @@ module.exports = {
           item.snippet != null &&
           item.snippet.liveBroadcastContent != null
         ) {
-          // stream online
+          /////////////////////// stream online
           sendStreamNotification(message, item);
           // stop timer
           stopUpdateTimer(interval);
