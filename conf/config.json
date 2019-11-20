@@ -15,6 +15,25 @@
             "name": "NASA",
             "channelID": "UCLA_DiR1FfKNvjuUpBHmylQ"
         }
-    }
+    },
+    "commands": [{
+        "name": "ping.js",
+        "enabled": true
+    }, {
+        "name": "whois.js",
+        "enabled": true
+    }, {
+        "name": "kick.js",
+        "enabled": false
+    }, {
+        "name": "report.js",
+        "enabled": false
+    }, {
+        "name": "say.js",
+        "enabled": true
+    }, {
+        "name": "get.js",
+        "enabled": true
+    }]
 
 }

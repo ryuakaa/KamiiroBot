@@ -1,6 +1,6 @@
 const axios = require("axios");
 const moment = require("moment");
-const conf = require("./../../conf/confBot");
+const conf = require("./../../conf/config");
 const { getErrorMessage, getDateTimeStr } = require("./../../functions.js");
 
 var interval = null;
@@ -29,7 +29,7 @@ module.exports = {
         counterInSec = args[2];
       }
 
-      // get live streaming info
+      // check request mode
       if (args[0] === "live") {
         mode = "live";
       } else {

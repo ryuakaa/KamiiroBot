@@ -5,7 +5,7 @@
 
 const { Client, Collection } = require("discord.js");
 const { config } = require("dotenv");
-const conf = require("./conf/confBot");
+const conf = require("./conf/config");
 
 config({
   path: __dirname + "/.env"

@@ -1,7 +1,7 @@
 const { promptMessage } = require("./../../functions.js");
 const { RichEmbed } = require("discord.js");
 const { stripIndents } = require("common-tags");
-const conf = require("./../../conf/confBot.json");
+const conf = require("./../../conf/config.json");
 
 module.exports = {
   name: "kick",

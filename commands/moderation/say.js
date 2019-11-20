@@ -1,11 +1,11 @@
 const { RichEmbed } = require("discord.js");
-const conf = require("./../../conf/confBot.json");
+const conf = require("./../../conf/config.json");
 
 module.exports = {
   name: "say",
   aliases: ["bc", "broadcast"],
   category: "moderation",
-  description: "Says your input via the bot",
+  description: "Writes your text in a channel",
   usage: "<input>",
   run: async (client, message, args) => {
     try {

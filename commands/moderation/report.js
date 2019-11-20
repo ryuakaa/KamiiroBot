@@ -1,10 +1,6 @@
-const {
-  RichEmbed
-} = require("discord.js");
-const {
-  stripIndents
-} = require("common-tags");
-const conf = require("./../../conf/confBot.json");
+const { RichEmbed } = require("discord.js");
+const { stripIndents } = require("common-tags");
+const conf = require("./../../conf/config.json");
 
 // TODO Testing
 module.exports = {
@@ -30,8 +26,8 @@ module.exports = {
 
     if (!args[1])
       message.channel
-      .send("Please provide a reason for the report!")
-      .then(m => m.delete(5000));
+        .send("Please provide a reason for the report!")
+        .then(m => m.delete(5000));
 
     const channel = message.guild.channels.find(
       channel => channel.name === "reports"
@@ -49,17 +45,17 @@ module.exports = {
       .setAuthor("Reported member", rMember.user.displayAvatarURL)
       .setDescription(
         "**Member:** " +
-        rMember +
-        " " +
-        rMember.id +
-        "\n**Reported by:** " +
-        message.member +
-        " (" +
-        message.member.id +
-        ")\n**Reported in:** " +
-        message.channel +
-        "\n**Reason:** " +
-        args.slice(1).join(" ")
+          rMember +
+          " " +
+          rMember.id +
+          "\n**Reported by:** " +
+          message.member +
+          " (" +
+          message.member.id +
+          ")\n**Reported in:** " +
+          message.channel +
+          "\n**Reason:** " +
+          args.slice(1).join(" ")
       );
 
     return channel.send(embed);

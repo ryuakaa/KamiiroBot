@@ -1,7 +1,7 @@
 const { getMember, formatDate } = require("./../../functions.js");
 const { RichEmbed } = require("discord.js");
 const { stripIndents } = require("common-tags");
-const conf = require("./../../conf/confBot.json");
+const conf = require("./../../conf/config.json");
 
 module.exports = {
   name: "whois",
@@ -30,7 +30,7 @@ module.exports = {
       .setColor(conf.colors.secondary)
       .addField(
         "User information",
-          "**ID:** " +
+        "**ID:** " +
           member.user.id +
           "\n**Username:** " +
           member.user.username +
