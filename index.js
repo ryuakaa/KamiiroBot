@@ -109,7 +109,8 @@ client.on("message", async msg => {
     console.log(
       getDateTimeStr() +
         msg.member.user.username +
-        " has no access to this command!"
+        " has no access to perform -" +
+        cmd
     );
   }
 });
