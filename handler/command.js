@@ -1,7 +1,15 @@
 const { readdirSync } = require("fs");
-const conf = require("../conf/config.json");
+const conf = require("../configs/config.json");
 const ascii = require("ascii-table");
 const table = new ascii().setHeading("Commands", "Load Status", "Description");
+
+/**
+ * Access levels:
+ * 0  |  admin    |  @♠️ Admin
+ * 1  |  mod      |  @💎 Twitch Mod
+ * 2  |  sub      |  @🏆 Twitch Sub
+ * 3  |  user     |  @🎮 Mitglied
+ */
 
 module.exports = client => {
   // get each filename as an element of array commands

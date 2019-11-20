@@ -1,6 +1,6 @@
 const { RichEmbed } = require("discord.js");
 const { stripIndents } = require("common-tags");
-const conf = require("./../../conf/config.json");
+const conf = require("./../../configs/config.json");
 
 // TODO Testing
 module.exports = {

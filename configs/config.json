@@ -16,24 +16,48 @@
             "channelID": "UCLA_DiR1FfKNvjuUpBHmylQ"
         }
     },
+    "roles": [{
+        "name": "admin",
+        "level": 0,
+        "id": "588094108707586116"
+    }, {
+        "name": "mod",
+        "level": 1,
+        "id": "588094157252460554"
+    }, {
+        "name": "sub",
+        "level": 2,
+        "id": "588094344897232916"
+    }, {
+        "name": "user",
+        "level": 3,
+        "id": "588094293030207501"
+    }],
     "commands": [{
         "name": "ping.js",
+        "access": "sub",
         "enabled": true
     }, {
         "name": "whois.js",
+        "access": "sub",
         "enabled": true
     }, {
         "name": "kick.js",
+        "access": "mod",
         "enabled": false
     }, {
         "name": "report.js",
+        "access": "mod",
         "enabled": false
     }, {
         "name": "say.js",
+        "access": "admin",
         "enabled": true
     }, {
         "name": "get.js",
+        "access": "admin",
         "enabled": true
     }]
+
 
 }

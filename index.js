@@ -5,27 +5,28 @@
 
 const { Client, Collection } = require("discord.js");
 const { config } = require("dotenv");
-const conf = require("./conf/config");
+const { getDateTimeStr } = require("./functions");
+const conf = require("./configs/config");
 
 config({
   path: __dirname + "/.env"
 });
 
 const client = new Client({
-  disableEveryone: true
+  disableEveryone: false
 });
 
 client.commands = new Collection();
 client.aliases = new Collection();
 
-// find all command js files
+// user command handler
 ["command"].forEach(handler => {
   require("./handler/" + handler)(client);
 });
 
-// wake up
+// wake up -> Status
 client.on("ready", async () => {
-  console.log("> " + client.user.username + " is now running...");
+  console.log(getDateTimeStr() + client.user.username + " is now running...");
   // client.user.setActivity("with yt api!");
   client.user.setPresence({
     status: "online",
@@ -35,6 +36,14 @@ client.on("ready", async () => {
     }
   });
 });
+
+/**
+ * Access levels:
+ * 0  |  admin    |  @♠️ Admin
+ * 1  |  mod      |  @💎 Twitch Mod
+ * 2  |  sub      |  @🏆 Twitch Sub
+ * 3  |  user     |  @🎮 Mitglied
+ */
 
 // message is sent event
 client.on("message", async msg => {
@@ -52,15 +61,80 @@ client.on("message", async msg => {
   args.forEach(el => {
     el.toLowerCase();
   });
+
+  // sets cmd to first argument
   const cmd = args.shift();
-
-  let command = client.commands.get(cmd);
-
+  // check length
   if (cmd.length === 0) return;
-
+  // set command
+  let command = client.commands.get(cmd);
+  // if nothing found -> check aliases
   if (!command) command = client.commands.get(client.aliases.get(cmd));
 
-  if (command) command.run(client, msg, args);
+  // exit if no command was found
+  if (!command) return;
+
+  // get required minimal access role name
+  let accessRoleName = null;
+
+  conf.commands.forEach(c => {
+    // get matching command from config
+    if (c.name.split(".js")[0] === cmd) {
+      // get access level from config
+      accessRoleName = c.access;
+    }
+  });
+
+  // check if user access level is enough to execute cmd
+  if (
+    msg.member.roles.find(r => {
+      let userLevel = getLevelFromRole(getRoleFromID(r.id));
+
+      if (
+        userLevel <= getLevelFromRole(accessRoleName) &&
+        userLevel != undefined
+      ) {
+        console.log(getDateTimeStr() + msg.member.user.username + " > " + cmd);
+        return true;
+      }
+    })
+  ) {
+    // user has access to this command -> execute cmd
+    command.run(client, msg, args);
+  } else {
+    // no access
+    msg.channel.send(
+      "<@" + msg.member.user.id + "> you are not allowed to do that!"
+    );
+    console.log(
+      getDateTimeStr() +
+        msg.member.user.username +
+        " has no access to this command!"
+    );
+  }
 });
 
+// login to discord servers with TOKEN
 client.login(process.env.TOKEN);
+
+// returns level of rolename
+function getLevelFromRole(role) {
+  let ret = null;
+  conf.roles.forEach(r => {
+    if (r.name === role) {
+      ret = r.level;
+    }
+  });
+  return ret;
+}
+
+// returns rolename of roleID
+function getRoleFromID(id) {
+  let ret = null;
+  conf.roles.forEach(r => {
+    if (r.id === id) {
+      ret = r.name;
+    }
+  });
+  return ret;
+}

@@ -1,6 +1,6 @@
 const axios = require("axios");
 const moment = require("moment");
-const conf = require("./../../conf/config");
+const conf = require("./../../configs/config");
 const { getErrorMessage, getDateTimeStr } = require("./../../functions.js");
 
 var interval = null;
@@ -9,6 +9,7 @@ module.exports = {
   name: "get",
   category: "youtube",
   description: "GETs data from youtube api",
+  accessLevelMin: "admin",
   usage: "<live> <name/id> <interval in s>",
   run: async (client, message, args) => {
     try {
@@ -84,7 +85,7 @@ module.exports = {
         if (item == null) {
           /////////////////////// nothing found -> Probably offline
           console.log(
-            getDateTimeStr() + " " + channelID + " is offline or nothing found!"
+            getDateTimeStr() + channelID + " is offline or nothing found!"
           );
         } else if (
           item != null &&
@@ -133,7 +134,7 @@ module.exports = {
           // Success case
           if (res.status === 200) {
             // rest service successfull
-            console.log(getDateTimeStr() + " GET successful!");
+            console.log(getDateTimeStr() + "GET successful!");
 
             if (res.data.items.length > 0) {
               // found something
@@ -145,7 +146,7 @@ module.exports = {
         })
         .catch(res => {
           // error case; return response
-          console.log(getDateTimeStr() + " GET failed!");
+          console.log(getDateTimeStr() + "GET failed!");
           ret = res;
         });
       return ret;
