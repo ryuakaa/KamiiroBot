@@ -29,7 +29,7 @@ module.exports = {
       .setThumbnail(member.user.displayAvatarURL)
       .setColor(conf.colors.secondary)
       .addField(
-        "User information",
+        "**User information**",
         "**ID:** " +
           member.user.id +
           "\n**Username:** " +
@@ -41,7 +41,7 @@ module.exports = {
         true
       )
       .addField(
-        "Member information",
+        "**Member information**",
         "**Display name:** " +
           member.displayName +
           "\n**Joined at:** " +

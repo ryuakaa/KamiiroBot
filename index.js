@@ -74,6 +74,12 @@ client.on("message", async msg => {
   // exit if no command was found
   if (!command) return;
 
+  // execute command if not juliversal server
+  if (msg.guild.id != conf.server.id) {
+    command.run(client, msg, args);
+    return;
+  }
+
   // get required minimal access role name
   let accessRoleName = null;
 

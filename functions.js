@@ -57,15 +57,15 @@ module.exports = {
    * @param {Array} errorArray Array of Strings
    * @param {String} example Example String
    */
-  getErrorMessage(errorArray) {
-    // build string
-    let msg = "```css\n[Errors]\n";
-    for (let i = 0; i < errorArray.length; i++) {
-      msg += "[" + (i + 1) + "] " + errorArray[i] + "\n";
-    }
-    msg += "```";
-    return msg;
-  },
+  // getErrorMessage(errorArray) {
+  //   // build string
+  //   let msg = "```css\n[Errors]\n";
+  //   for (let i = 0; i < errorArray.length; i++) {
+  //     msg += "[" + (i + 1) + "] " + errorArray[i] + "\n";
+  //   }
+  //   msg += "```";
+  //   return msg;
+  // },
   /**
    * Return the Date and Time for console outputs
    * @returns {String} date | time

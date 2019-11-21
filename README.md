@@ -9,22 +9,20 @@ Discord Bot for the Juliversal Community
 - `Git` latest stable version
 - `Npm` latest stable version
 - `NodeJS` latest stable version
-- `IDE` (VSCode recommended)
+- `IDE` ([VSCode](https://code.visualstudio.com/) recommended)
 - Run `npm install` to update the dependencies
 
 ---
 
 ## Installation
 
-- **Fork** this repository
+- [**Fork**](https://help.github.com/en/github/getting-started-with-github/fork-a-repo) this repository
 - Create a **new branch** from the develop branch
-- Create a file named **.env** in this directory and insert:
+- Create a file named **.env** in this directory and insert the line:
 
-```js
-TOKEN = superSecretToken;
-```
+    `TOKEN = superSecretToken;`
 
-- Replace token with your discordapp.com/developers Bot Token.
+- Replace superSecretToken with your [Discord Bot Token](https://discordapp.com/developers/applications/).
 - Run `node index` to start the bot
 
 ---

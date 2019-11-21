@@ -40,10 +40,10 @@ module.exports = {
       // set target channel
       if (args[1] === "julie") {
         // choose julie
-        target = conf.yt.julie.channelID;
+        target = conf.youtube.julie.channelID;
       } else if (args[1] === "nasa") {
         // choose nasa
-        target = conf.yt.nasa.channelID;
+        target = conf.youtube.nasa.channelID;
       } else if (args[1] != null && args[1].startsWith("id:")) {
         // choose id TODO exception handling if wrong id
         target = args[1].split("id:")[1];
@@ -189,7 +189,7 @@ module.exports = {
           "&type=video&eventType=" +
           eventType +
           "&key=" +
-          conf.ytkey
+          conf.youtubekey
       });
     }
   }

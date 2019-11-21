@@ -28,5 +28,8 @@
   "bugs": {
     "url": "https://github.com/ryuakaa/kamiiro/issues"
   },
-  "homepage": "https://github.com/ryuakaa/kamiiro#readme"
+  "homepage": "https://github.com/ryuakaa/kamiiro#readme",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  }
 }
