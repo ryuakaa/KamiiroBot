@@ -1,6 +1,11 @@
 /**
- * TODO
  *
+ * Kamiiro Discord Bot
+ *
+ * More information in the README.md
+ * https://github.com/ryuakaa/KamiiroBot
+ *
+ * View GitHub commits for Changelog
  */
 
 const { Client, Collection } = require("discord.js");
@@ -8,10 +13,9 @@ const { config } = require("dotenv");
 const { getDateTimeStr } = require("./functions");
 const conf = require("./configs/config");
 
-config({
-  path: __dirname + "/.env"
-});
+config({ path: __dirname + "/.env" });
 
+// Create Client and disable @everyone mentions
 const client = new Client({
   disableEveryone: false
 });
@@ -45,7 +49,7 @@ client.on("ready", async () => {
  * 3  |  user     |  @🎮 Mitglied
  */
 
-// message is sent event
+/////////////// A message is sent event ///////////////
 client.on("message", async msg => {
   // ignore messages for nonprefix and bot
   if (!msg.content.startsWith(conf.prefix) || msg.author.bot || !msg.guild)
@@ -121,8 +125,11 @@ client.on("message", async msg => {
   }
 });
 
+/////////////// LOGIN ///////////////
+// login to discord with .env stored DISCORD variable
 client.login(process.env.DISCORD);
 
+/////////////// FUNCTIONS ///////////////
 // returns level of rolename
 function getLevelFromRole(role) {
   let ret = null;

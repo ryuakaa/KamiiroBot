@@ -1,6 +1,7 @@
 const { readdirSync } = require("fs");
 const conf = require("../configs/config.json");
 const ascii = require("ascii-table");
+// command table info
 const table = new ascii().setHeading("Commands", "Load Status", "Description");
 
 /**
@@ -30,6 +31,7 @@ module.exports = client => {
             activated = cmd.enabled;
           }
         });
+        // set table info
         if (activated) {
           client.commands.set(pull.name, pull);
           table.addRow(file, "  Active", pull.description);
@@ -37,7 +39,7 @@ module.exports = client => {
           table.addRow(file, "  Off", pull.description);
         }
       } else {
-        table.addRow(file, "FAILED -> missing something?");
+        table.addRow(file, "404 ");
         continue;
       }
 
