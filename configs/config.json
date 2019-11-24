@@ -1,7 +1,6 @@
 {
-
   "prefix": "-",
-  "generateLogs": true,
+  "generateLogs": false,
   "invite": "https://discordapp.com/api/oauth2/authorize?client_id=636977897646718978&permissions=8&scope=bot",
   "colors": {
     "primary": "#0c7cd5",
@@ -20,7 +19,8 @@
       "channelID": "UCLA_DiR1FfKNvjuUpBHmylQ"
     }
   },
-  "roles": [{
+  "roles": [
+    {
       "name": "admin",
       "level": 0,
       "id": "588094108707586116"
@@ -41,7 +41,8 @@
       "id": "588094293030207501"
     }
   ],
-  "commands": [{
+  "commands": [
+    {
       "name": "ping.js",
       "access": "sub",
       "enabled": true
@@ -68,6 +69,11 @@
     },
     {
       "name": "get.js",
+      "access": "admin",
+      "enabled": true
+    },
+    {
+      "name": "logs.js",
       "access": "admin",
       "enabled": true
     }

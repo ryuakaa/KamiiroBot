@@ -1,13 +1,13 @@
 const { promptMessage } = require("./../../functions.js");
 const { RichEmbed } = require("discord.js");
-const { stripIndents } = require("common-tags");
 const conf = require("./../../configs/config.json");
 
+//TODO testing
 module.exports = {
   name: "kick",
   category: "moderation",
   description: "Kicks the member",
-  usage: "mention | id>",
+  usage: "<mention | id>",
   run: async (client, message, args) => {
     const logChannel =
       message.guild.channels.find(c => c.name === "logs") || message.channel;

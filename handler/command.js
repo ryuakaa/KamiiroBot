@@ -48,5 +48,6 @@ module.exports = client => {
     }
   });
 
+  // output CMD status table with description
   console.log(table.toString());
 };
