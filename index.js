@@ -121,8 +121,7 @@ client.on("message", async msg => {
   }
 });
 
-// login to discord servers with TOKEN
-client.login(process.env.TOKEN);
+client.login(process.env.DISCORD);
 
 // returns level of rolename
 function getLevelFromRole(role) {

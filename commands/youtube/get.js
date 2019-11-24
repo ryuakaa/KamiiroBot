@@ -1,15 +1,17 @@
 const axios = require("axios");
-const moment = require("moment");
 const conf = require("./../../configs/config");
 const { getErrorMessage, getDateTimeStr } = require("./../../functions.js");
+const { config } = require("dotenv");
 
 var interval = null;
+
+// get env key
+config({ path: "/.env" });
 
 module.exports = {
   name: "get",
   category: "youtube",
   description: "GETs data from youtube api",
-  accessLevelMin: "admin",
   usage: "<live> <name/id> <interval in s>",
   run: async (client, message, args) => {
     try {
@@ -189,7 +191,8 @@ module.exports = {
           "&type=video&eventType=" +
           eventType +
           "&key=" +
-          conf.youtubekey
+          // google api account
+          process.env.GOOGLE
       });
     }
   }
