@@ -1,0 +1,80 @@
+{
+  "prefix": "-",
+  "generateLogs": true,
+  "invite": "https://discordapp.com/api/oauth2/authorize?client_id=636977897646718978&permissions=8&scope=bot",
+  "colors": {
+    "primary": "#0c7cd5",
+    "secondary": "#96AE5F"
+  },
+  "server": {
+    "id": "588093623162372102"
+  },
+  "youtube": {
+    "julie": {
+      "name": "Juliversal",
+      "channelID": "UCsyye4AvF0XyaqXsBZw9xCg"
+    },
+    "nasa": {
+      "name": "NASA",
+      "channelID": "UCLA_DiR1FfKNvjuUpBHmylQ"
+    }
+  },
+  "roles": [{
+      "name": "admin",
+      "level": 0,
+      "id": "588094108707586116"
+    },
+    {
+      "name": "mod",
+      "level": 1,
+      "id": "588094157252460554"
+    },
+    {
+      "name": "sub",
+      "level": 2,
+      "id": "588094344897232916"
+    },
+    {
+      "name": "user",
+      "level": 3,
+      "id": "588094293030207501"
+    }
+  ],
+  "commands": [{
+      "name": "ping.js",
+      "access": "sub",
+      "enabled": true
+    },
+    {
+      "name": "whois.js",
+      "access": "sub",
+      "enabled": true
+    },
+    {
+      "name": "kick.js",
+      "access": "mod",
+      "enabled": false
+    },
+    {
+      "name": "report.js",
+      "access": "mod",
+      "enabled": false
+    },
+    {
+      "name": "say.js",
+      "access": "admin",
+      "enabled": true
+    },
+    {
+      "name": "get.js",
+      "access": "admin",
+      "enabled": true,
+      "defaultTextChannelID": "479378277304107031"
+    },
+    {
+      "name": "logs.js",
+      "access": "admin",
+      "enabled": true
+    }
+  ]
+}

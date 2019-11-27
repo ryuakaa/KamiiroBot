@@ -1,0 +1,35 @@
+{
+  "name": "kamiiro",
+  "version": "1.0.0",
+  "description": "Discord Bot Juliversal",
+  "main": "index.js",
+  "dependencies": {
+    "ascii-table": "0.0.9",
+    "axios": "^0.19.0",
+    "common-tags": "^1.8.0",
+    "discord.js": "^11.5.1",
+    "dotenv": "^8.2.0",
+    "moment": "^2.24.0",
+    "node-fetch": "^2.6.0",
+    "querystring": "^0.2.0"
+  },
+  "devDependencies": {
+    "mocha": "^6.2.2"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ryuakaa/kamiiro.git"
+  },
+  "author": "Julian T",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ryuakaa/kamiiro/issues"
+  },
+  "homepage": "https://github.com/ryuakaa/kamiiro#readme",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  }
+}
