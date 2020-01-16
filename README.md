@@ -12,7 +12,7 @@ Discord Bot for the Juliversal Community
 
 ## Installation
 
-- [**Fork**](https://help.github.com/en/github/getting-started-with-github/fork-a-repo) this repository
+- [**Fork**](https://help.github.com/en/github/getting-started-with-github/fork-a-repo)/Download this repository
 - Create a **new branch** from the develop branch
 - Create a file named **.env** in this directory and insert the lines:
 
