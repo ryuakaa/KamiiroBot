@@ -66,10 +66,9 @@
       "enabled": true
     },
     {
-      "name": "get.js",
+      "name": "timer.js",
       "access": "admin",
-      "enabled": true,
-      "defaultTextChannelID": "479378277304107031"
+      "enabled": true
     },
     {
       "name": "logs.js",

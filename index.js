@@ -77,8 +77,9 @@ client.on("message", async msg => {
   // exit if no command was found
   if (!command) return;
 
+  // !!TODO delete later; this is just for debugging on test server
   // execute command if not juliversal server
-  if (msg.guild.id != conf.server.id) {
+    if (msg.guild.id != conf.server.id) {
     command.run(client, msg, args);
     return;
   }
