@@ -25,26 +25,25 @@ module.exports = {
        * Returns Promise with worker + eventlisteners in it
        * @param {Object} workerData Object filled with information for the worker
        */
-      function createWorkerPromise(workerData) {
-        return new Promise((resolve, reject) => {
-          const worker = new Worker('./worker.js', { workerData });
-          // execute command and maybe resolve afterwards
-          worker.on('message', obj => doCommandFromWorker(resolve, obj));
-          worker.on('error', reject);
-          worker.on('exit', (code) => {
-            if (code !== 0)
-              reject(new Error(`Worker stopped with exit code ${code}`));
-          })
-
-          // add to worker array
-          //console.log("added worker to list, interval: "+workerData.args[2])
-          allWorkers.push({
-            id: workerData.id,
-            target: args[1],
-            interval: workerData.args[2],
-            status: workerData.status
-          });
+      function runService(workerData) {
+        const worker = new Worker('./worker.js', { workerData });
+        // execute command and maybe resolve afterwards
+        worker.on('message', obj => doCommandFromWorker(obj));
+        worker.on('error', reject);
+        worker.on('exit', (code) => {
+          if (code !== 0)
+            reject(new Error(`Worker stopped with exit code ${code}`));
         })
+
+        // add to worker array
+        //console.log("added worker to list, interval: "+workerData.args[2])
+        allWorkers.push({
+          worker,
+          id: workerData.id,
+          target: args[1],
+          interval: workerData.args[2],
+          status: workerData.status
+        });
       }
 
       /**
@@ -52,7 +51,7 @@ module.exports = {
        * @param {void} resolve If this is called then the promise is resolved
        * @param {Object} workerData Object filled with information from theworker 
        */
-      function doCommandFromWorker(resolve, obj) {
+      function doCommandFromWorker(obj) {
         var id = obj.id;
         var counter = obj.counter;
         var status = obj.status;
@@ -60,59 +59,27 @@ module.exports = {
         var text = obj.text;
         var data = obj.data;
 
-        if (cmd == "updateStatus") {
-          // updates status of worker with specific id 
-          updateStatusOfWorker(id, status);
-
-        } else if (cmd == "say") {
+        if (cmd == "say") {
           // prints a message in given channel
           message.channel.send(text);
 
         } else if (cmd == "stop") {
           // stops worker
           message.channel.send(text);
-          resolve(obj);
         }
 
       }
 
-      /**
-       * Updates the status of a single worker
-       * @param {Number} id 
-       * @param {String} status 
-       */
-      function updateStatusOfWorker(id, status) {
-        // for (var i = 0; i < allWorkers.length; i++) {
-        //   allWorkers[id].status = status;
-        // }
-        allWorkers.find(el => el.id == id).status = status;
-      }
+      //allWorkers.find(el => el.id == id).status = status;
 
       /**
        * Create worker-promise with data and handle resolve/reject case
        * Object receives id and arguments
        */
-      async function cmdStart() {
+      async function run(obj) {
         // async !
-        await createWorkerPromise({
-          id: workerNum++,
-          args
-        }).then(obj => {
-          // PROMISE RESOLVED
-          // worker is resolved -> interval is stopped
-          console.log("Worker " + obj.id + " resolved after " + obj.counter + " ticks! " + obj.text);
-
-        }).catch(err => {
-
-          // PROMISE REJECTED
-          var errors = [];
-          errors.push("Worker rejected!");
-          errors.push(err.toString());
-
-          // send error msg in channel and log
-          message.channel.send(getErrorMessage(errors));
-          console.log(errors);
-        })
+        const result = runService(obj);
+        console.log("Hello From RUN()")
       }
 
       /**
@@ -146,7 +113,12 @@ module.exports = {
       if (command == "start") {
 
         if (args[1] && args[2] && args[3]) {
-          cmdStart();
+          run({
+            id: workerNum++,
+            args
+          }).catch(err => {
+            console.log(err)
+          })
         } else {
           errors.push("Arguments missing!");
         }
