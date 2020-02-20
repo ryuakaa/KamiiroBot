@@ -79,7 +79,8 @@ client.on("message", async msg => {
 
   // !!TODO delete later; this is just for debugging on test server
   // execute command if not juliversal server
-    if (msg.guild.id != conf.server.id) {
+  if (msg.guild.id != conf.server.id) {
+    console.log(getDateTimeStr() + msg.member.user.username + " > " + args);
     command.run(client, msg, args);
     return;
   }
@@ -118,9 +119,9 @@ client.on("message", async msg => {
     );
     console.log(
       getDateTimeStr() +
-        msg.member.user.username +
-        " has no access to perform -" +
-        cmd
+      msg.member.user.username +
+      " has no access to perform -" +
+      cmd
     );
   }
 });
