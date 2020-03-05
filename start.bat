@@ -1,2 +1,2 @@
-node index.js
+node index --experimental-worker
 pause
