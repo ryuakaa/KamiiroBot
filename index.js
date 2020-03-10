@@ -97,19 +97,16 @@ client.on("message", async msg => {
   });
 
   // check if user access level is enough to execute cmd
-  if (
-    msg.member.roles.find(r => {
-      let userLevel = getLevelFromRole(getRoleFromID(r.id));
 
-      if (
-        userLevel <= getLevelFromRole(accessRoleName) &&
-        userLevel != undefined
-      ) {
-        console.log(getDateTimeStr() + msg.member.user.username + " > " + cmd);
-        return true;
-      }
-    })
-  ) {
+  var userAllowed = msg.member.roles.find(r => {
+    let userLevel = getLevelFromRole(getRoleFromID(r.id));
+
+    if (userLevel <= getLevelFromRole(accessRoleName) && userLevel != undefined) {
+      console.log(getDateTimeStr() + msg.member.user.username + " > " + cmd);
+      return true;
+    }
+  });
+  if (userAllowed) {
     // user has access to this command -> execute cmd
     command.run(client, msg, args);
   } else {
