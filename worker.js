@@ -20,7 +20,7 @@ parentPort.on("message", message => {
 });
 
 /**
- * Updates every timeinterval seconds
+ * Updates every workerData.interval seconds
  * @param {MessagePort} pPort 
  */
 async function update(pPort) {

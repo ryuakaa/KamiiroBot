@@ -4,8 +4,8 @@ const { Worker } = require("worker_threads");
 const conf = require("./../../configs/config.json");
 const ascii = require("ascii-table");
 
-
-// amount of time, the timer stops printing messages if channel is online/streaming
+// TODO
+// amount of time, the timer stops after printing the message if channel is online/streaming
 var waitingTimeInHours = 12;
 var idLength = 4;
 var allWorkers = [];
@@ -17,7 +17,7 @@ module.exports = {
   name: "timer",
   category: "youtube",
   description: "GETs data from youtube api",
-  usage: "<start> <name/id> <interval in s> <channel id>",
+  usage: "<start/stop/list> <name/id> <interval in s> <channel id>",
   run: async (client, message, args) => {
     try {
       var errors = [];
@@ -35,7 +35,9 @@ module.exports = {
         // stops timer(s)
         cmdStop();
       }
-
+      /**
+       * Start timer command
+       */
       async function cmdStart() {
         // check arguments existing
         if (!args[1] || !args[2] || !args[3]) {
@@ -111,7 +113,7 @@ module.exports = {
       }
 
       /**
-       * Lists all Workers in allWorkers object with [id, interval, status] in table
+       * Stop one or all workers
        */
       function cmdStop() {
         if (args[1] == "all") {
@@ -127,7 +129,10 @@ module.exports = {
         }
       }
 
-      // stop specific worker by id
+      /**
+       * stop specific worker by id
+       * @param {String} id 
+       */
       function stopWorkerById(id) {
 
         var entry = allWorkers.find(el => el.id == id);
@@ -145,7 +150,10 @@ module.exports = {
 
         message.channel.send("```css\nStopped timer " + entry.id + " successfully!```")
       }
-
+      /**
+       * Creates Worker object with listeners and adds it to allWorkers array  
+       * @param {Object} workerData 
+       */
       async function startWorker(workerData) {
 
         // create worker object
@@ -170,16 +178,19 @@ module.exports = {
         message.channel.send("```css\nStarted timer " + workerData.id + " successfully!```")
         console.log(getDateTimeStr() + "Worker " + workerData.id + " started successfully!");
       }
-
+      /**
+       * This function takes in the return object from a worker
+       * @param {Object} obj The data Object sent from a worker
+       */
       function doCommandFromWorker(obj) {
         if (obj.command == "say") {
 
           // prints a message in given channel
           message.channel.send(obj.text);
-        } else if(obj.command == "status") {
+        } else if (obj.command == "status") {
 
           // prints a message in given channel + css code style
-          message.channel.send("```css\n"+obj.text+" ```");
+          message.channel.send("```css\n" + obj.text + " ```");
         } else if (obj.command == "log") {
 
           // print log
@@ -188,16 +199,19 @@ module.exports = {
 
           // A channel is streaming
           sendStreamNotification(client, obj.target)
+          console.log(getDateTimeStr() + "Worker " + obj.id + " Target " + obj.target.snippet.title);
 
-        } else if(obj.command == "stop") {
-          
+          // TODO CHANGE THIS
+          stopWorkerById(obj.id);
+
+        } else if (obj.command == "stop") {
           // Stop Timer (because of error?)
           stopWorkerById(obj.id);
         }
       }
 
       /**
-       * sends message in channel
+       * sends streamnotification message in a channel
        * @param {*} msg on message
        * @param {*} item yt search response first item
        */
@@ -213,12 +227,13 @@ module.exports = {
             .send(
               "Hi @here, **" +
               item.snippet.channelTitle +
-              "** ist ab jetzt live auf YouTube!\n" +
+              "** ist gerade live auf YouTube!\n\n" +
+              item.snippet.title + "\n" +
               url
             );
         } catch (error) {
-          message.channel.send("```css\nFailed to post message in channel: "+args[3]+"```");
-          console.log(getDateTimeStr() + "Failed to post message in channel: "+args[3]);
+          message.channel.send("```css\nFailed to post message in channel: " + args[3] + "```");
+          console.log(getDateTimeStr() + "Failed to post message in channel: " + args[3]);
         }
       }
 
